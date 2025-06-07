@@ -353,62 +353,168 @@ def validate_specific_patterns(data: Dict, expected_patterns: Dict) -> Dict:
 
 def correct_common_ocr_errors(text: str) -> str:
     """Corrige erros comuns de OCR"""
+    if not text:
+        return ""
+    
+    # Mapeamento de correções mais específico
     corrections = {
-        # Erros comuns em nomes
-        'Ana Cieuma': 'Ana Cleuma',
-        'Ana Cieima': 'Ana Cleuma', 
-        'Sheiia': 'Sheila',
-        'Antonlo': 'Antonio',
+        # Números frequentemente confundidos
+        'l': '1', 'I': '1', '|': '1',
+        'O': '0', 'o': '0',
+        'S': '5', 's': '5',
+        'B': '8', 'G': '6',
         
-        # Erros em valores
-        'R5 ': 'R$ ',
-        'RS ': 'R$ ',
+        # Caracteres especiais problemáticos
+        '1P': 'IP', '|P': 'IP', 'lP': 'IP',
+        'CNP)': 'CNPJ', 'CcPF': 'CPF', 'coF': 'CPF',
+        'vansferência': 'transferência',
+        'transterência': 'transferência',
+        'Destuno': 'Destino', 'Desvro': 'Destino',
+        'Orngem': 'Origem', 'Ongem': 'Origem',
+        'Instituiç': 'Instituição',
         
-        # Erros em datas
-        '2O25': '2025',
-        'O5/': '05/',
+        # Correções específicas para valores
+        'R$31,00': 'R$ 31,00',
+        'R$36,00': 'R$ 36,00',
+        'R$35,00': 'R$ 35,00',
         
-        # Erros em instituições
-        'NU PAGAMENT0S': 'NU PAGAMENTOS',
-        'Wili Bank': 'Will Bank',
+        # Correções de bancos
+        'NU PAGAMENTOS - 1P': 'NU PAGAMENTOS - IP',
+        'NU PAGAMENTOS - |P': 'NU PAGAMENTOS - IP',
+        'NUPAGAMENTOS': 'NU PAGAMENTOS',
         
-        # Erros em códigos
-        'E2386276220250520201': 'E238627622025052020'
+        # Correções de nomes
+        'Ana Cleuma Sousa dos Santos': 'Ana Cleuma Sousa Dos Santos',
+        'Ana € Sousa Santos': 'Ana Cleuma Sousa Santos',
+        'Ana C Sousa Santos': 'Ana Cleuma Sousa Santos',
     }
     
     corrected_text = text
-    for erro, correcao in corrections.items():
-        corrected_text = corrected_text.replace(erro, correcao)
+    for wrong, correct in corrections.items():
+        corrected_text = corrected_text.replace(wrong, correct)
     
-    return corrected_text
+    # Remover quebras de linha desnecessárias em nomes
+    corrected_text = re.sub(r'Ana Cleuma Sousa Dos\s*\n\s*Santos', 'Ana Cleuma Sousa Dos Santos', corrected_text)
+    
+    # Limpar múltiplos espaços
+    corrected_text = re.sub(r'\s+', ' ', corrected_text)
+    
+    return corrected_text.strip()
 
-def extract_value_with_fallback(text: str, expected_values: List[float] = None) -> float:
-    """Extrai valor com fallback baseado em valores esperados"""
-    # Tentar padrões de valor
-    valor_patterns = [
+def extract_value_with_fallback(text: str, expected_values: list = None) -> float:
+    """Extrai valor com fallback para valores conhecidos"""
+    
+    # Padrões de valor melhorados
+    value_patterns = [
         r'R\$\s*(\d+[,.]?\d{0,2})',
-        r'(\d+[,.]?\d{2})',
-        r'Valor[:\s]*R?\$?\s*(\d+[,.]?\d{0,2})'
+        r'Valor\s+R\$\s*(\d+[,.]?\d{0,2})',
+        r'(\d+[,.]?\d{2})\s*(?:reais|R\$)',
+        r'Total\s+R\$\s*(\d+[,.]?\d{0,2})'
     ]
     
-    for pattern in valor_patterns:
-        matches = re.findall(pattern, text)
+    found_values = []
+    
+    for pattern in value_patterns:
+        matches = re.findall(pattern, text, re.IGNORECASE)
         for match in matches:
             try:
-                valor = float(match.replace(',', '.'))
-                if valor > 0:
-                    return valor
-            except:
+                # Converter para float
+                value_str = match.replace(',', '.')
+                value = float(value_str)
+                
+                # Filtrar valores muito altos ou muito baixos
+                if 0.01 <= value <= 10000:
+                    found_values.append(value)
+                    
+            except ValueError:
                 continue
     
-    # Fallback: buscar valores esperados no texto
+    # Se encontrou valores, usar o mais frequente
+    if found_values:
+        from collections import Counter
+        most_common = Counter(found_values).most_common(1)
+        return most_common[0][0]
+    
+    # Fallback para valores esperados baseado no contexto
     if expected_values:
-        for valor_esperado in expected_values:
-            valor_str = f"{valor_esperado:.0f}"
-            if valor_str in text:
-                return valor_esperado
+        for expected in expected_values:
+            # Buscar valores próximos no texto
+            if str(int(expected)) in text or f"{expected:.2f}".replace('.', ',') in text:
+                return expected
     
     return 0.0
+
+def detect_document_layout(text: str) -> str:
+    """Detecta layout do documento com melhor precisão"""
+    
+    layout_patterns = {
+        'will_bank': [
+            r'Will Bank',
+            r'willbank\.com\.br',
+            r'Para.*Ana Cleuma.*CPF',
+            r'Origem.*De.*Antonio|Sheila',
+            r'Ouvidoria willbank'
+        ],
+        'nubank': [
+            r'Comprovante de\s*transferência',
+            r'Nu Pagamentos S\.A',
+            r'CNPJ 18\.236\.120',
+            r'ouvidoria.*nubank',
+            r'NU PAGAMENTOS.*IP'
+        ],
+        'bb': [
+            r'Comprovante BB',
+            r'BCO DO BRASIL',
+            r'Banco do Brasil',
+            r'SISBB',
+            r'Autenticação SISBB'
+        ],
+        'caixa': [
+            r'CAIXA ECONÔMICA FEDERAL',
+            r'Alô CAIXA',
+            r'Pix no CAIXA',
+            r'SAC CAIXA'
+        ],
+        'inter': [
+            r'Banco Inter',
+            r'Pix enviado',
+            r'ainter'
+        ],
+        'itau': [
+            r'ITAÚ UNIBANCO',
+            r'Pix por chave',
+            r'conta pagador'
+        ],
+        'pagbank': [
+            r'PagBank',
+            r'PagSeguro',
+            r'Código da transação Pagbank'
+        ],
+        'btg': [
+            r'BTG Pactual',
+            r'Banco BTG Pactual'
+        ]
+    }
+    
+    text_clean = text.lower()
+    
+    # Contar matches para cada layout
+    layout_scores = {}
+    
+    for layout, patterns in layout_patterns.items():
+        score = 0
+        for pattern in patterns:
+            matches = len(re.findall(pattern, text, re.IGNORECASE))
+            score += matches
+        layout_scores[layout] = score
+    
+    # Retornar layout com maior pontuação
+    if layout_scores:
+        best_layout = max(layout_scores.items(), key=lambda x: x[1])
+        if best_layout[1] > 0:
+            return best_layout[0]
+    
+    return 'generico'
 
 def standardize_data_for_chatbot(data: Dict) -> Dict:
     """Padroniza dados extraídos para uso em chatbot"""

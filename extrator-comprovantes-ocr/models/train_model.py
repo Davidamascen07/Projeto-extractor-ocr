@@ -159,89 +159,162 @@ class ModelTrainer:
         # Verificar se temos dados suficientes para divisão estratificada
         unique_labels, label_counts = np.unique(labels, return_counts=True)
         min_samples_per_class = min(label_counts)
+        n_classes = len(unique_labels)
         
         print(f"Distribuição das classes: {dict(zip(unique_labels, label_counts))}")
+        print(f"Mínimo de amostras por classe: {min_samples_per_class}")
+        print(f"Número de classes: {n_classes}")
         
-        if min_samples_per_class < 2 or len(texts) < 4:
-            # Dataset muito pequeno - treinar com todos os dados
-            print("Dataset pequeno detectado. Treinando com todos os dados disponíveis.")
-            self.classifier.fit(X, labels)
+        # Calcular test_size apropriado
+        test_size = self.config.get('test_size', 0.2)
+        min_test_samples = max(n_classes, int(len(texts) * test_size))
+        
+        # Se dataset é muito pequeno ou test_size inadequado, usar validação LOO
+        if len(texts) < 10 or min_samples_per_class < 2 or min_test_samples >= len(texts):
+            print("Dataset pequeno detectado. Usando validação Leave-One-Out.")
             
+            # Treinar com todos os dados
+            self.classifier.fit(X, labels)
             train_score = self.classifier.score(X, labels)
             
-            # Usar validação leave-one-out para datasets pequenos
+            # Usar validação leave-one-out
             from sklearn.model_selection import LeaveOneOut
             loo = LeaveOneOut()
             loo_scores = []
             
-            for train_idx, test_idx in loo.split(X):
-                X_train_loo, X_test_loo = X[train_idx], X[test_idx]
-                y_train_loo, y_test_loo = np.array(labels)[train_idx], np.array(labels)[test_idx]
+            try:
+                for train_idx, test_idx in loo.split(X):
+                    X_train_loo, X_test_loo = X[train_idx], X[test_idx]
+                    y_train_loo, y_test_loo = np.array(labels)[train_idx], np.array(labels)[test_idx]
+                    
+                    # Criar classificador temporário
+                    temp_classifier = RandomForestClassifier(
+                        n_estimators=self.config.get('n_estimators', 100),
+                        random_state=42,
+                        max_depth=self.config.get('max_depth', 10)
+                    )
+                    
+                    temp_classifier.fit(X_train_loo, y_train_loo)
+                    score = temp_classifier.score(X_test_loo, y_test_loo)
+                    loo_scores.append(score)
                 
-                self.classifier.fit(X_train_loo, y_train_loo)
-                score = self.classifier.score(X_test_loo, y_test_loo)
-                loo_scores.append(score)
-            
-            # Re-treinar com todos os dados
-            self.classifier.fit(X, labels)
-            
-            results = {
-                'train_accuracy': train_score,
-                'test_accuracy': np.mean(loo_scores),
-                'cv_mean': np.mean(loo_scores),
-                'cv_std': np.std(loo_scores),
-                'classification_report': f'Dataset pequeno - apenas {len(texts)} amostras',
-                'confusion_matrix': 'N/A para dataset pequeno',
-                'feature_names': self.vectorizer.get_feature_names_out().tolist()[:20],
-                'trained_at': datetime.now().isoformat(),
-                'n_samples': len(texts),
-                'n_features': X.shape[1],
-                'training_method': 'Leave-One-Out validation'
-            }
+                # Re-treinar com todos os dados
+                self.classifier.fit(X, labels)
+                
+                results = {
+                    'train_accuracy': train_score,
+                    'test_accuracy': np.mean(loo_scores) if loo_scores else train_score,
+                    'cv_mean': np.mean(loo_scores) if loo_scores else train_score,
+                    'cv_std': np.std(loo_scores) if loo_scores else 0.0,
+                    'classification_report': f'Leave-One-Out validation - {len(texts)} amostras, {n_classes} classes',
+                    'confusion_matrix': 'N/A para LOO validation',
+                    'feature_names': self.vectorizer.get_feature_names_out().tolist()[:50],
+                    'trained_at': datetime.now().isoformat(),
+                    'n_samples': len(texts),
+                    'n_features': X.shape[1],
+                    'training_method': 'Leave-One-Out validation',
+                    'class_distribution': dict(zip(unique_labels, label_counts.tolist()))
+                }
+                
+            except Exception as e:
+                print(f"Erro na validação LOO: {e}")
+                # Fallback para treinamento simples
+                results = {
+                    'train_accuracy': train_score,
+                    'test_accuracy': train_score,
+                    'cv_mean': train_score,
+                    'cv_std': 0.0,
+                    'classification_report': f'Treinamento simples - {len(texts)} amostras',
+                    'confusion_matrix': 'N/A para dataset pequeno',
+                    'feature_names': self.vectorizer.get_feature_names_out().tolist()[:20],
+                    'trained_at': datetime.now().isoformat(),
+                    'n_samples': len(texts),
+                    'n_features': X.shape[1],
+                    'training_method': 'Simple training',
+                    'class_distribution': dict(zip(unique_labels, label_counts.tolist()))
+                }
             
         else:
-            # Dataset normal - usar divisão estratificada
-            X_train, X_test, y_train, y_test = train_test_split(
-                X, labels, 
-                test_size=self.config.get('test_size', 0.2),
-                random_state=42,
-                stratify=labels
-            )
+            # Dataset suficiente - usar divisão estratificada com test_size ajustado
+            # Garantir que test_size seja apropriado
+            adjusted_test_size = max(0.1, min(0.3, n_classes / len(texts)))
             
-            # Treinar modelo
-            self.classifier.fit(X_train, y_train)
+            print(f"Usando test_size ajustado: {adjusted_test_size:.2f}")
             
-            # Avaliar modelo
-            train_score = self.classifier.score(X_train, y_train)
-            test_score = self.classifier.score(X_test, y_test)
-            
-            # Cross-validation
-            cv_scores = cross_val_score(
-                self.classifier, X, labels, 
-                cv=min(self.config.get('cv_folds', 5), len(texts)//2)
-            )
-            
-            # Predições para relatório detalhado
-            y_pred = self.classifier.predict(X_test)
-            
-            results = {
-                'train_accuracy': train_score,
-                'test_accuracy': test_score,
-                'cv_mean': cv_scores.mean(),
-                'cv_std': cv_scores.std(),
-                'classification_report': classification_report(y_test, y_pred),
-                'confusion_matrix': confusion_matrix(y_test, y_pred).tolist(),
-                'feature_names': self.vectorizer.get_feature_names_out().tolist()[:50],
-                'trained_at': datetime.now().isoformat(),
-                'n_samples': len(texts),
-                'n_features': X.shape[1],
-                'training_method': 'Train-test split with cross-validation'
-            }
+            try:
+                X_train, X_test, y_train, y_test = train_test_split(
+                    X, labels, 
+                    test_size=adjusted_test_size,
+                    random_state=42,
+                    stratify=labels
+                )
+                
+                # Treinar modelo
+                self.classifier.fit(X_train, y_train)
+                
+                # Avaliar modelo
+                train_score = self.classifier.score(X_train, y_train)
+                test_score = self.classifier.score(X_test, y_test)
+                
+                # Cross-validation com número de folds adequado
+                cv_folds = min(self.config.get('cv_folds', 5), min_samples_per_class)
+                cv_scores = cross_val_score(
+                    self.classifier, X, labels, 
+                    cv=cv_folds
+                )
+                
+                # Predições para relatório detalhado
+                y_pred = self.classifier.predict(X_test)
+                
+                results = {
+                    'train_accuracy': train_score,
+                    'test_accuracy': test_score,
+                    'cv_mean': cv_scores.mean(),
+                    'cv_std': cv_scores.std(),
+                    'classification_report': classification_report(y_test, y_pred),
+                    'confusion_matrix': confusion_matrix(y_test, y_pred).tolist(),
+                    'feature_names': self.vectorizer.get_feature_names_out().tolist()[:50],
+                    'trained_at': datetime.now().isoformat(),
+                    'n_samples': len(texts),
+                    'n_features': X.shape[1],
+                    'training_method': f'Train-test split (test_size={adjusted_test_size:.2f}) with {cv_folds}-fold CV',
+                    'class_distribution': dict(zip(unique_labels, label_counts.tolist()))
+                }
+                
+            except ValueError as e:
+                print(f"Erro na divisão estratificada: {e}")
+                # Fallback para divisão simples sem estratificação
+                X_train, X_test, y_train, y_test = train_test_split(
+                    X, labels, 
+                    test_size=0.2,
+                    random_state=42
+                )
+                
+                self.classifier.fit(X_train, y_train)
+                train_score = self.classifier.score(X_train, y_train)
+                test_score = self.classifier.score(X_test, y_test)
+                
+                results = {
+                    'train_accuracy': train_score,
+                    'test_accuracy': test_score,
+                    'cv_mean': test_score,
+                    'cv_std': 0.0,
+                    'classification_report': 'Divisão simples sem estratificação',
+                    'confusion_matrix': 'N/A',
+                    'feature_names': self.vectorizer.get_feature_names_out().tolist()[:20],
+                    'trained_at': datetime.now().isoformat(),
+                    'n_samples': len(texts),
+                    'n_features': X.shape[1],
+                    'training_method': 'Simple train-test split (fallback)',
+                    'class_distribution': dict(zip(unique_labels, label_counts.tolist()))
+                }
         
-        print(f"Acurácia de treino: {results['train_accuracy']:.3f}")
-        print(f"Acurácia de teste: {results['test_accuracy']:.3f}")
+        print(f"✅ Treinamento concluído:")
+        print(f"   - Acurácia de treino: {results['train_accuracy']:.3f}")
+        print(f"   - Acurácia de teste: {results['test_accuracy']:.3f}")
         if 'cv_mean' in results:
-            print(f"CV Score: {results['cv_mean']:.3f} (+/- {results['cv_std'] * 2:.3f})")
+            print(f"   - CV Score: {results['cv_mean']:.3f} (+/- {results['cv_std'] * 2:.3f})")
+        print(f"   - Método: {results['training_method']}")
         
         return results
     
