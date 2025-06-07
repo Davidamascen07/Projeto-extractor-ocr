@@ -1,0 +1,46 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_002.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "will_bank",
+    "processado_em": "2025-06-06T20:57:28.932845",
+    "valor_numerico": 33.0,
+    "valor_total": 33.0,
+    "destino_nome": "Ana Cleuma Sousa Dos Santos",
+    "destino_cpf": "***,120.983-**",
+    "destino_instituicao": "NU PAGAMENTOS - IP",
+    "chave_pix": "(88) 99451-5533",
+    "origem_nome": "Antonio Valmi Passos Da Rocha",
+    "origem_cpf": "***,097.048-**",
+    "origem_instituicao": "Will Bank",
+    "descricao": "pagar piza",
+    "autenticacao": "E238627622025052020",
+    "id_transacao": "E238627622025052020",
+    "data": "20/05/2025",
+    "hora": "17:51:22",
+    "data_hora": "20/05/2025 17:51:22",
+    "pagador_nome": "Antonio Valmi Passos Da Rocha",
+    "pagador_cpf": "***,097.048-**",
+    "pagador_instituicao": "Will Bank",
+    "recebedor_nome": "Ana Cleuma Sousa Dos Santos",
+    "recebedor_cpf": "***,120.983-**",
+    "situacao": "Efetivado",
+    "codigo_operacao": "PIX_WILL_BANK_002",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "PIX Will Bank - R$ 33,00",
+    "melhorias_identificadas": [],
+    "acertos": [
+      "✅ Tipo PIX detectado"
+    ],
+    "erros": [],
+    "taxa_acerto": 10.0
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T20:57:28.935859",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 379
+  }
+}

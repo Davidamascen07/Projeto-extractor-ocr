@@ -1,0 +1,45 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_001.jpg",
+    "tipo_documento": "transferencia",
+    "layout_detectado": "nubank",
+    "processado_em": "2025-06-06T18:41:03.691493",
+    "valores": [
+      "898,80",
+      "898,80"
+    ],
+    "datas": [
+      "30/05/2025"
+    ],
+    "horas": [
+      "17:29:35",
+      "18:27:52"
+    ],
+    "palavras_chave": [
+      "transferência",
+      "transferência",
+      "Pix",
+      "pagamento",
+      "PAGAMENTO",
+      "Pagamento",
+      "Pagamento"
+    ]
+  },
+  "analise_qualidade": {
+    "tipo_analise": "genérica",
+    "dados_extraidos": 8,
+    "campos_principais": {
+      "valor": false,
+      "nome": false,
+      "data": false,
+      "tipo": true
+    },
+    "qualidade_texto": "Boa"
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T18:41:03.693495",
+    "versao": "2.1.0",
+    "comprovante_completo": false,
+    "texto_extraido_tamanho": 735
+  }
+}

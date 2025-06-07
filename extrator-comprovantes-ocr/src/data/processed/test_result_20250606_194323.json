@@ -1,0 +1,68 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_002.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "will_bank",
+    "processado_em": "2025-06-06T19:43:23.016829",
+    "valor_numerico": 33.0,
+    "destino_nome": "Ana Cleuma Sousa Dos Santos",
+    "destino_cpf": "***,120.983-**",
+    "destino_instituicao": "E",
+    "chave_pix": "(88) 99451-5533",
+    "origem_nome": "Antonio Valmi Passos Da Rocha",
+    "origem_cpf": "***,120.983-**",
+    "origem_instituicao": "Will Bank",
+    "descricao": "pagar piza Autenticação E238627622025052020 ” 48NESTIGQ7GEM = uio Ouvidoria willbank.com.br/ouvidoria AtendimentoDias úteis, de 10h às 16h",
+    "autenticacao": "E238627622025052020",
+    "data": "20/05/2025",
+    "hora": "17:51:22",
+    "valor_total": 0.0,
+    "pagador_nome": "",
+    "pagador_cpf": "",
+    "pagador_instituicao": "",
+    "situacao": "",
+    "id_transacao": "",
+    "data_hora": "20/05/2025 17:51:22",
+    "codigo_operacao": "",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "comprovante_002.jpg (PIX Will Bank - R$ 33,00)",
+    "melhorias_identificadas": [
+      "🎉 EXCELENTE! PIX Will Bank extraído com alta precisão",
+      "✅ Padrões regex funcionaram perfeitamente",
+      "📈 Sistema está otimizado para este layout"
+    ],
+    "acertos": [
+      "✅ Tipo PIX detectado corretamente",
+      "✅ Layout Will Bank detectado",
+      "✅ Valor R$ 33,00 extraído",
+      "✅ Nome destino completo extraído",
+      "✅ Nome origem completo extraído",
+      "✅ CPF destino extraído",
+      "✅ Chave PIX completa extraída",
+      "✅ Descrição extraída",
+      "✅ Código autenticação extraído",
+      "✅ Instituição origem extraída"
+    ],
+    "erros": [
+      "❌ CPF ORIGEM: \"***,120.983-**\" (esperado: ***,097.048-**)",
+      "❌ INST. DESTINO: \"E\" (esperado: NU PAGAMENTOS)"
+    ],
+    "taxa_acerto": 83.33333333333334,
+    "detalhes_tecnicos": {
+      "metodo_extracao": "extract_pix_will_bank_data()",
+      "layout_detectado": "will_bank",
+      "tipo_detectado": "pix",
+      "campos_extraidos_total": 21,
+      "texto_ocr_qualidade": 379,
+      "contem_dados_esperados": 8
+    }
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T19:43:23.026006",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 379
+  }
+}

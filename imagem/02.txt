@@ -1,0 +1,58 @@
+
+Consulta Pix enviado
+CAIXA
+Valor
+R$ 81,86
+Nome
+TOPENET SERVICOS DE TELECOMUNICACAO LTDA
+CNPJ
+28.385.484/0001-53
+Instituição
+CCR DE SÃO MIGUEL DO OESTE
+Dados do pagador
+Nome
+DAVID DAMASCENO DA FROTA
+CPF
+***.072.773-**
+Instituição
+CAIXA ECONÔMICA FEDERAL
+Dados do devedor
+Nome
+DAVID DAMASCENO DA FROTA
+CPF
+***.072.773-**
+Dados da transação
+Situação
+Efetivado
+Valor
+R$ 80,00
+Abatimento
+R$ 0,00
+Juros
+R$ 0,26
+Multa R$ 1,60
+Desconto R$ 0,00
+Valor do documento
+R$ 81,86
+Valor do pagamento
+R$ 81,86
+Vencimento
+05/03/2025
+Validade do pagamento após vencimento
+30 dia(s)
+Solicitação pagador
+de 05/02/2025 ate 04/03/2025
+ID transação
+E00360305202503162301e7fb0cd921d
+Data/Hora
+16/03/2025 ás 20:01:51
+Identificador
+06245788316392d26c92b8b20ec0f4ea
+Código da operação
+43901209373
+Chave de segurança
+NNC5Z4P56850ZOU2
+Valor tarifa
+R$ 0,00
+Data
+16/03/2025 20:01:51

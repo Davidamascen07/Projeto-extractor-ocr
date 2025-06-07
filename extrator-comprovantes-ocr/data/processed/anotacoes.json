@@ -1,0 +1,140 @@
+{
+    "anotacoes": [
+        {
+            "tipo": "Consulta Pix",
+            "data": "16/03/2025",
+            "hora": "20:01:51",
+            "valor": {
+                "total": 81.86,
+                "transacao": 80.00,
+                "juros": 0.26,
+                "multa": 1.60,
+                "desconto": 0.00
+            },
+            "pagador": {
+                "nome": "DAVID DAMASCENO DA FROTA",
+                "cpf": "***.072.773-**",
+                "instituicao": "CAIXA ECONÔMICA FEDERAL"
+            },
+            "devedor": {
+                "nome": "DAVID DAMASCENO DA FROTA",
+                "cpf": "***.072.773-**"
+            },
+            "instituicao": "CCR DE SÃO MIGUEL DO OESTE",
+            "id_transacao": "E00360305202503162301e7fb0cd921d",
+            "vencimento": "05/03/2025",
+            "validade_pagamento": "30 dia(s)"
+        },
+        {
+            "tipo": "Transferência",
+            "data": "30/05/2025",
+            "hora": "17:29:35",
+            "valor": {
+                "total": 898.80,
+                "original": 898.80
+            },
+            "origem": {
+                "nome": "Dionete Damasceno da Frota",
+                "instituicao": "NU PAGAMENTOS - IP",
+                "agencia": "0001",
+                "conta": "71596013-8",
+                "cpf": "...,374.593-.."
+            },
+            "destino": {
+                "nome": "AIAMISS",
+                "cnpj": "03365403000122",
+                "instituicao": "CONPAY IP S.A.",
+                "tipo_conta": "Conta de pagamentos"
+            },
+            "id_transacao": "E18236120202505302029s15f61c414a",
+            "expiracao": "30/05/2025 18:27:52"
+        },
+        {
+            "tipo": "Comprovante PIX",
+            "data": "22/03/2025",
+            "hora": "08:00:12",
+            "valor": {
+                "total": 120.00
+            },
+            "pagador": {
+                "nome": "DAVID DAMASCENO DA FROTA",
+                "cpf": "***.072.773-**",
+                "instituicao": "BCO C6 S.A."
+            },
+            "dados_transacao": {
+                "situacao": "Efetivado",
+                "codigo_operacao": "4415946690",
+                "chave_seguranca": "RA127823VC9PCWQP",
+                "chave_pix": "ab5e3c30-17fa-4c09-aa6e-e92881004261"
+            },
+            "id_transacao": "E00360305202503221059eb0e13cb498"
+        },
+        {
+            "tipo": "Comprovante Pagamento",
+            "data": "22/03/2025",
+            "hora": "08:00:12", 
+            "valor": {
+                "total": 120.00
+            },
+            "instituicao_destino": "BCO C6 S.A.",
+            "pagador": {
+                "nome": "DAVID DAMASCENO DA FROTA",
+                "cpf": "***.072.773-**",
+                "instituicao": "CAIXA ECONÔMICA FEDERAL"
+            },
+            "codigo_operacao": "4415946690",
+            "chave_seguranca": "RA127823VC9PCWQP"
+        },
+        {
+            "tipo": "PIX Will Bank",
+            "data": "20/05/2025",
+            "hora": "17:51:22",
+            "valor": {
+                "total": 33.00
+            },
+            "origem": {
+                "nome": "Antonio Valmi Passos Da Rocha",
+                "cpf": "***,097.048-**",
+                "instituicao": "Will Bank"
+            },
+            "destino": {
+                "nome": "Ana Cleuma Sousa Dos Santos",
+                "cpf": "***,120.983-**",
+                "instituicao": "NU PAGAMENTOS - IP"
+            },
+            "chave_pix": "(88) 99451-5533",
+            "descricao": "pagar piza",
+            "autenticacao": "E23862762202505202048NE6T9GQ7GEM",
+            "id_transacao": "E23862762202505202048NE6T9GQ7GEM",
+            "observacoes": [
+                "Layout específico Will Bank",
+                "CPF com formato vírgula-ponto",
+                "Chave PIX telefone com formatação específica",
+                "Descrição informal da transação",
+                "Código de autenticação longo"
+            ]
+        }
+    ],
+    "padroes_identificados": {
+        "layouts_comuns": [
+            "CAIXA - Comprovante padrão com cabeçalho azul",
+            "Nubank - Layout minimalista com dados centralizados", 
+            "Will Bank - Layout com divisão clara origem/destino",
+            "PIX - Formato padronizado com QR code"
+        ],
+        "campos_obrigatorios": [
+            "valor",
+            "data",
+            "nome_pagador", 
+            "cpf_mascardo",
+            "instituicao"
+        ],
+        "campos_opcionais": [
+            "hora",
+            "id_transacao",
+            "chave_seguranca",
+            "codigo_operacao",
+            "conta_destino"
+        ]
+    }
+}

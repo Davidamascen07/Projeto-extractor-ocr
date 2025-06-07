@@ -1,0 +1,64 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_003.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "will_bank",
+    "processado_em": "2025-06-06T21:23:31.487426",
+    "valor_numerico": 2.3862762202505223e+20,
+    "valor_total": 2.3862762202505223e+20,
+    "destino_nome": "Para",
+    "destino_instituicao": "NU PAGAMENTOS - IP",
+    "chave_pix": "(88) 99451-5533",
+    "origem_nome": "De",
+    "origem_instituicao": "Will Bank",
+    "autenticacao": "E238627622025052220513ZMVPE",
+    "id_transacao": "E238627622025052220513ZMVPE",
+    "data": "20/05/2025",
+    "hora": "17:51:22",
+    "data_hora": "20/05/2025 17:51:22",
+    "pagador_nome": "De",
+    "pagador_cpf": "",
+    "pagador_instituicao": "Will Bank",
+    "recebedor_nome": "Para",
+    "recebedor_cpf": "",
+    "situacao": "Efetivado",
+    "codigo_operacao": "PIX_WILL_BANK_238627622025052225536",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "comprovante_003.jpg - PIX Will Bank R$ 17,00 (Sheila)",
+    "melhorias_identificadas": [
+      "🚨 NECESSÁRIO: Correções urgentes nos padrões",
+      "🔧 Sistema não adaptou corretamente para Sheila"
+    ],
+    "acertos": [
+      "✅ CHAVE PIX CORRETA",
+      "✅ LAYOUT Will Bank detectado",
+      "✅ TIPO PIX detectado"
+    ],
+    "erros": [
+      "❌ VALOR INESPERADO: 2.3862762202505223e+20",
+      "❌ ORIGEM INCORRETA: \"De\" (esperado: Sheila Fernandes)",
+      "❌ CPF ORIGEM: \"\" (esperado: ***,687.783-**)",
+      "❌ DESTINO: \"Para\"",
+      "❌ CPF DESTINO: \"\"",
+      "❌ DATA: \"20/05/2025\" (esperado: 22/05/2025)"
+    ],
+    "taxa_acerto": 37.5,
+    "status_detalhado": {
+      "valor_correto": false,
+      "origem_correta": false,
+      "cpf_origem_correto": false,
+      "destino_correto": false,
+      "data_correta": false,
+      "precisao_geral": 37.5,
+      "pronto_producao": false
+    }
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T21:23:31.492427",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 349
+  }
+}

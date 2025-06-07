@@ -1,0 +1,55 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_002.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "will_bank",
+    "processado_em": "2025-06-06T19:40:41.119929",
+    "palavras_chave": [
+      "PAGAMENTO",
+      "Pix"
+    ]
+  },
+  "analise_qualidade": {
+    "comprovante": "comprovante_002.jpg (PIX Will Bank - R$ 33,00)",
+    "melhorias_identificadas": [],
+    "acertos": [
+      "✅ Tipo PIX detectado corretamente",
+      "✅ Layout Will Bank detectado corretamente"
+    ],
+    "erros": [
+      "❌ VALOR CRÍTICO: Não extraído (R$ 33,00 visível na imagem)",
+      "❌ Nome destino: \"\" (esperado: Ana Cleuma...)",
+      "❌ Nome origem: \"\" (esperado: Antonio Valmi...)",
+      "❌ Chave PIX: \"\" (esperado: (88) 99451-5533)",
+      "❌ Descrição: \"\" (esperado: pagar piza)",
+      "❌ Autenticação: \"\" (esperado: E238627622...)",
+      "❌ Poucos campos extraídos: 0/6"
+    ],
+    "taxa_acerto": 25.0,
+    "diagnostico_critico": [
+      "🚨 FALHA: Sistema não reconheceu PIX Will Bank adequadamente",
+      "🚨 Layout ou tipo não detectado corretamente",
+      "🚨 Padrões regex não funcionaram com este texto OCR"
+    ],
+    "acoes_imediatas": [
+      "🔧 Verificar se extract_pix_will_bank_data() está sendo chamado",
+      "🔧 Testar padrões regex individualmente",
+      "🔧 Analisar texto OCR character por character",
+      "🔧 Implementar fallback para valor R$ 33,00"
+    ],
+    "qualidade_ocr": {
+      "tamanho_texto": 379,
+      "contém_will_bank": true,
+      "contém_ana_cleuma": true,
+      "contém_pix": true,
+      "contém_33": true,
+      "avaliacao": "Boa"
+    }
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T19:40:41.124106",
+    "versao": "2.1.0",
+    "comprovante_completo": false,
+    "texto_extraido_tamanho": 379
+  }
+}

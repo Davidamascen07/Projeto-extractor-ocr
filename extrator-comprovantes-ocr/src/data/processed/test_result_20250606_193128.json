@@ -1,0 +1,45 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_002.jpg",
+    "tipo_documento": "generico",
+    "layout_detectado": "nubank",
+    "processado_em": "2025-06-06T19:31:28.243075",
+    "id_transacao": "oria",
+    "valor_total": 0.0,
+    "pagador_nome": "",
+    "pagador_cpf": "",
+    "pagador_instituicao": "",
+    "situacao": "",
+    "data_hora": " ",
+    "codigo_operacao": "",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "comprovante_001.jpg (Transferência Nubank)",
+    "melhorias_identificadas": [],
+    "acertos": [
+      "✅ Layout Nubank detectado corretamente"
+    ],
+    "erros": [
+      "❌ Tipo incorreto: generico (esperado: transferencia)",
+      "❌ Valor incorreto: None (esperado: 898.80)",
+      "❌ Nome destino: \"\" (esperado: AIAMISS)",
+      "❌ Nome origem: \"\" (esperado: Dionete Damasceno da Frota)",
+      "❌ CNPJ: \"\" (esperado: 03.365.403/0001-22)",
+      "❌ Data: \"\" (esperado: 30/05/2025)"
+    ],
+    "taxa_acerto": 16.666666666666664,
+    "problemas_identificados": [
+      "Extração de dados estruturados falhou",
+      "Schema de objeto não compatível (cpf_cnpj)",
+      "Padrões regex precisam ser ajustados",
+      "Formatação de CNPJ precisa melhorar"
+    ]
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T19:31:28.248073",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 379
+  }
+}

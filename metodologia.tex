@@ -1,0 +1,166 @@
+\chapter{Metodologia}
+\label{chap:metodologia}
+
+A metodologia adotada neste estudo tem como objetivo sistematizar o desenvolvimento, implementação e validação de um sistema de reconhecimento automatizado de padrões em comprovantes de pagamentos digitais (PIX, boletos e transferências), com base nas diretrizes definidas no TCC 1. O trabalho assume uma abordagem científica orientada à experimentação e estudo de caso, estruturada em fases bem definidas, a fim de assegurar rigor técnico, reprodutibilidade dos resultados e validação empírica da hipótese proposta.
+
+\section{Classificação da Pesquisa}
+
+Esta pesquisa caracteriza-se conforme os seguintes critérios metodológicos:
+
+\begin{itemize}
+    \item \textbf{Quanto à natureza:} Pesquisa aplicada
+    \item \textbf{Quanto aos objetivos:} Exploratória e descritiva
+    \item \textbf{Quanto à abordagem:} Quantitativa e qualitativa
+    \item \textbf{Quanto aos procedimentos:} Experimental e estudo de caso
+\end{itemize}
+
+\section{Desenvolvimento do Sistema}
+
+\subsection{Arquitetura do Sistema}
+
+O sistema foi desenvolvido com base em uma arquitetura modular, organizada em camadas responsáveis por diferentes funções do processo de extração de dados. A estrutura de diretórios segue o padrão:
+
+\begin{verbatim}
+├── src/ocr/          # Módulo de OCR
+├── src/ml/           # Módulo de Machine Learning  
+├── src/utils/        # Utilitários e validação
+├── src/types/        # Schemas de dados
+├── models/           # Modelos treinados
+└── data/             # Datasets e resultados
+\end{verbatim}
+
+Essa separação facilita o versionamento, reuso de código, testes e manutenibilidade da aplicação.
+
+\subsection{Tecnologias e Ferramentas}
+
+A linguagem de programação utilizada foi o Python 3.8+, devido à sua ampla adoção em aplicações de Machine Learning e processamento de imagens. A comunicação entre as camadas é estruturada conforme a lógica:
+
+\begin{center}
+Camada de Apresentação $\rightarrow$ Camada de Processamento $\rightarrow$ Camada de ML $\rightarrow$ Camada de Dados
+\end{center}
+
+As principais bibliotecas e ferramentas utilizadas foram:
+
+\begin{itemize}
+    \item \textbf{OCR:} Tesseract OCR + pytesseract
+    \item \textbf{Machine Learning:} scikit-learn, pandas, numpy
+    \item \textbf{Processamento de Imagem:} OpenCV, Pillow
+    \item \textbf{Validação:} jsonschema e expressões regulares (re)
+\end{itemize}
+
+\section{Metodologia de Desenvolvimento}
+
+\subsection{Fase 1: Coleta e Preparação dos Dados}
+
+Foi realizado um processo sistemático de aquisição de mais de 50 comprovantes reais ou simulados, nos formatos de imagens (JPEG, JPG), oriundos de diferentes instituições financeiras. Os dados foram anonimizados para garantir conformidade com a LGPD, e as imagens passaram por um pré-processamento que envolveu:
+
+\begin{itemize}
+    
+    \item Padronização de resolução
+    \item Aplicação de filtros (binarização, remoção de ruídos, normalização de brilho e contraste)
+\end{itemize}
+
+\subsection{Fase 2: Implementação do OCR}
+
+A extração do texto foi feita com a biblioteca pytesseract, utilizando uma classe modular conforme o exemplo:
+
+\begin{lstlisting}[language=Python]
+class OCRExtractor:
+    def extract_text(self, image_path):
+        image = self.preprocess_image(image_path)
+        text = pytesseract.image_to_string(image, lang='por')
+        return self.clean_text(text)
+\end{lstlisting}
+
+Foram aplicadas técnicas como segmentação por regiões de interesse (ROI), detecção de layouts por instituição e correção de erros de OCR com expressões regulares.
+
+\subsection{Fase 3: Desenvolvimento do Modelo de Machine Learning}
+
+Dois objetivos principais foram tratados:
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Classificação de Documentos:} Foi desenvolvido um pipeline com \textit{TfidfVectorizer} e \textit{RandomForestClassifier} para categorizar os tipos de comprovantes.
+    \item \textbf{Extração e Validação de Entidades:} Foram utilizados padrões regex específicos por tipo de campo (valor, data, CPF etc.) e a validação foi feita com \textit{JSONSchema}. Campos com falhas de leitura passaram por correção automática sempre que possível.
+\end{enumerate}
+
+\subsection{Fase 4: Sistema de Validação}
+
+O desempenho do sistema foi avaliado com base nas seguintes métricas:
+
+\begin{itemize}
+    \item Acurácia por campo extraído
+    \item Precisão geral da extração
+    \item Tempo médio de processamento
+    \item Qualidade da imagem (impacto na acurácia)
+\end{itemize}
+
+\section{Metodologia de Testes}
+
+\subsection{Testes Unitários}
+
+Cada módulo da aplicação (OCR, ML, validação) foi testado isoladamente com entrada controlada e validação de saídas esperadas.
+
+\subsection{Testes de Integração}
+
+A arquitetura modular permitiu testar o pipeline completo, conforme exemplo abaixo:
+
+\begin{lstlisting}[language=Python]
+def test_full_pipeline():
+    result = process_comprovante('test_image.jpg')
+    assert result['success'] == True
+    assert 'valor' in result['data']
+\end{lstlisting}
+
+\subsection{Testes com Dados Reais}
+
+Os testes finais foram conduzidos com comprovantes reais anonimizados. O desempenho foi comparado manualmente com os dados visuais, utilizando métricas padrão.
+
+\section{Avaliação e Validação}
+
+\subsection{Critérios de Avaliação}
+
+\begin{itemize}
+    \item \textbf{Acurácia:} Proporção de dados corretamente extraídos
+    \item \textbf{Completude:} Percentual de campos preenchidos
+    \item \textbf{Velocidade:} Tempo de execução médio
+    \item \textbf{Robustez:} Capacidade de lidar com layouts e qualidades variadas
+\end{itemize}
+
+\subsection{Validação dos Resultados}
+
+O resultado final foi consolidado em estrutura de análise que classifica os campos como:
+
+\begin{itemize}
+    \item Corretos
+    \item Incorretos
+    \item Parciais
+\end{itemize}
+
+Exemplo de resultado real:
+
+\begin{lstlisting}[language=json]
+{
+  "taxa_acerto_geral": 75.6,
+  "campos_mais_precisos": ["valor", "data"],
+  "campos_com_dificuldade": ["cpf", "nome_completo"],
+  "recomendacoes": ["Melhorar qualidade da imagem"]
+}
+\end{lstlisting}
+
+\section{Limitações da Metodologia}
+
+\begin{itemize}
+    \item Base de dados reduzida (50 comprovantes)
+    \item Foco restrito ao contexto brasileiro
+    \item Dependência da qualidade da imagem
+    \item Ausência de comprovantes com manuscritos
+\end{itemize}
+
+\section{Considerações Éticas}
+
+\begin{itemize}
+    \item Anonimização dos dados pessoais
+    \item Não armazenamento de dados bancários reais
+    \item Conformidade com a Lei Geral de Proteção de Dados (LGPD)
+    \item Utilização de dados fictícios para testes sempre que necessário
+\end{itemize}

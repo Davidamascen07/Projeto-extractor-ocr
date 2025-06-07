@@ -1,0 +1,66 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_003.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "will_bank",
+    "processado_em": "2025-06-06T21:00:33.678414",
+    "valor_numerico": 687.76,
+    "valor_total": 687.76,
+    "destino_nome": "Ana Cleuma Sousa Dos Santos",
+    "destino_instituicao": "NU PAGAMENTOS - IP",
+    "chave_pix": "(88) 99451-5533",
+    "origem_nome": "Sheila Fernandes Da Silva",
+    "origem_cpf": "***,687.783-**",
+    "origem_instituicao": "Will Bank",
+    "autenticacao": "E238627622025052220513ZMVPE",
+    "id_transacao": "E238627622025052220513ZMVPE",
+    "data": "20/05/2025",
+    "hora": "17:51:22",
+    "data_hora": "20/05/2025 17:51:22",
+    "pagador_nome": "Sheila Fernandes Da Silva",
+    "pagador_cpf": "***,687.783-**",
+    "pagador_instituicao": "Will Bank",
+    "recebedor_nome": "Ana Cleuma Sousa Dos Santos",
+    "recebedor_cpf": "",
+    "situacao": "Efetivado",
+    "codigo_operacao": "PIX_WILL_BANK_687",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "comprovante_003.jpg - PIX Will Bank R$ 17,00",
+    "melhorias_identificadas": [],
+    "acertos": [
+      "✅ Tipo PIX detectado",
+      "✅ Layout Will Bank detectado",
+      "✅ Nome destino Ana Cleuma extraído",
+      "✅ Nome origem Sheila extraído CORRETAMENTE",
+      "✅ CPF origem Sheila extraído CORRETAMENTE",
+      "✅ Chave PIX extraída",
+      "✅ Código autenticação correto"
+    ],
+    "erros": [
+      "❌ VALOR INCORRETO: 687.76 (esperado: 17.00)",
+      "❌ CPF DESTINO: \"\"",
+      "❌ DATA: \"20/05/2025\" (esperado: 22/05/2025)"
+    ],
+    "taxa_acerto": 70.0,
+    "melhorias_necessarias": [
+      "🔧 URGENTE: Corrigir valor (deve ser 17.00, não 33.00)",
+      "🔧 URGENTE: Extrair nome origem Sheila corretamente",
+      "🔧 URGENTE: Extrair CPF 687.783 da Sheila",
+      "🔧 Ajustar data para 22/05/2025"
+    ],
+    "status_comprovante": {
+      "valor_correto": false,
+      "origem_correta": true,
+      "data_correta": false,
+      "precisao_geral": 70.0
+    }
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T21:00:33.684411",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 349
+  }
+}

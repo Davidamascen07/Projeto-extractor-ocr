@@ -1,0 +1,44 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_003.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "will_bank",
+    "processado_em": "2025-06-06T20:57:40.842883",
+    "valor_numerico": 33.0,
+    "valor_total": 33.0,
+    "destino_instituicao": "NU PAGAMENTOS - IP",
+    "chave_pix": "(88) 99451-5533",
+    "origem_instituicao": "Will Bank",
+    "autenticacao": "E238627622025052220513ZMVPE",
+    "id_transacao": "E238627622025052220513ZMVPE",
+    "data": "20/05/2025",
+    "hora": "17:51:22",
+    "data_hora": "20/05/2025 17:51:22",
+    "pagador_nome": "",
+    "pagador_cpf": "",
+    "pagador_instituicao": "Will Bank",
+    "recebedor_nome": "",
+    "recebedor_cpf": "",
+    "situacao": "Efetivado",
+    "codigo_operacao": "PIX_WILL_BANK_002",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "PIX Will Bank - Genérico",
+    "acertos": [
+      "✅ Layout Will Bank detectado"
+    ],
+    "sugestao": "Adicione função específica para este valor",
+    "taxa_acerto": 50.0,
+    "melhorias_identificadas": [
+      "📈 Sistema detectou Will Bank corretamente",
+      "🔧 Precisa de padrões específicos para este valor"
+    ]
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T20:57:40.846879",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 349
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_001.jpg",
+    "tipo_documento": "transferencia",
+    "layout_detectado": "nubank",
+    "processado_em": "2025-06-06T19:12:56.531942",
+    "valor_total": 898.8,
+    "valor_numerico": 898.8,
+    "data": "30/05/2025",
+    "hora": "17:29:35",
+    "data_hora": "30/05/2025 17:29:35",
+    "destino_nome": "AIAMISS",
+    "nome_empresa": "AIAMISS",
+    "destino_cnpj": "03.365.403/0001-22",
+    "cnpj_empresa": "03.365.403/0001-22",
+    "destino_instituicao": "CONPAY IP S.A.",
+    "origem_nome": "Dionete Damasceno da Frota",
+    "pagador_nome": "",
+    "origem_cpf": "\".,374,598-++",
+    "pagador_cpf": "",
+    "origem_instituicao": "NU PAGAMENTOS - IP",
+    "pagador_instituicao": "",
+    "agencia": "0001",
+    "conta": "71596013-8",
+    "id_transacao": "a1874",
+    "data_expiracao": "30/05/2025 18:27:52",
+    "tipo_transferencia": "Pix",
+    "situacao": "Concluída",
+    "codigo_operacao": "",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "comprovante": "comprovante_001.jpg (Transferência Nubank)",
+    "melhorias_identificadas": [
+      "🎉 Boa extração para transferência Nubank!",
+      "✅ Tipo de documento detectado corretamente",
+      "✅ Layout específico identificado",
+      "✅ Dados principais extraídos"
+    ],
+    "acertos": [
+      "✅ Tipo TRANSFERÊNCIA detectado corretamente",
+      "✅ Valor R$ 898,80 extraído corretamente",
+      "✅ Nome do destino (AIAMISS) correto",
+      "✅ Nome da origem correto",
+      "✅ CNPJ do destino extraído",
+      "✅ Data extraída corretamente",
+      "✅ Layout Nubank detectado corretamente"
+    ],
+    "erros": [],
+    "taxa_acerto": 116.66666666666667
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T19:12:56.535461",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 735
+  }
+}

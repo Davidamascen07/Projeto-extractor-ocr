@@ -1,0 +1,24 @@
+# OCR e processamento de imagens
+pytesseract>=0.3.10
+opencv-python>=4.8.0
+Pillow>=9.5.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+numpy>=1.24.0
+pandas>=2.0.0
+joblib>=1.3.0
+
+# Utilitários
+jsonschema>=4.17.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Desenvolvimento e testes
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Opcional para melhor performance
+scipy>=1.11.0

@@ -1,0 +1,88 @@
+{
+  "arquivo": "comprovante6.jpg",
+  "tipo_documento": "pix",
+  "layout_detectado": "caixa",
+  "valor_total": 178.0,
+  "pagador": {
+    "nome": "DAVID DAMASCENO DA FROTA",
+    "cpf": "***.072.773-**",
+    "instituicao": "CAIXA ECONÔMICA FEDERAL"
+  },
+  "recebedor": {
+    "nome": "David Damasceno da Frota",
+    "cpf": "***.072.773-**",
+    "instituicao": "BCO C6 S.A."
+  },
+  "transacao": {
+    "situacao": "Efetivado",
+    "valor": 178.0,
+    "id_transacao": "E00360305202505291948911b814907e",
+    "data_hora": "29/05/2025 - 16:48:58",
+    "codigo_operacao": "47437902975",
+    "chave_seguranca": "85U10AA5NVACE4Z4",
+    "chave_pix": "04907277350",
+    "vencimento": ""
+  },
+  "processado_em": "2025-06-03T08:33:58.508013",
+  "analise_qualidade": {
+    "dados_esperados": {
+      "valor": "R$ 178,00",
+      "data": "29/05/2025",
+      "hora": "16:48:58",
+      "recebedor_nome": "David Damasceno da Frota",
+      "recebedor_cpf": "***.072.773-**",
+      "recebedor_instituicao": "BCO C6 S.A.",
+      "pagador_nome": "DAVID DAMASCENO DA FROTA",
+      "pagador_cpf": "***.072.773-**",
+      "pagador_instituicao": "CAIXA ECONÔMICA FEDERAL",
+      "situacao": "Efetivado",
+      "id_transacao": "E00360305202505291948911b814907e",
+      "codigo_operacao": "47437902975",
+      "chave_seguranca": "85U10AA5NVACE4Z4",
+      "chave_pix": "04907277350"
+    },
+    "dados_extraidos_originalmente": {
+      "valor": "178.0",
+      "nome": "David Damasceno da Frota\\n\\nCPF",
+      "cpf": "",
+      "instituicao": "BCO C",
+      "id_transacao": "Damasceno",
+      "data_hora": "29/05/2025 16:48:58"
+    },
+    "acertos": [
+      "Valor monetário (178.00)",
+      "Data (29/05/2025)",
+      "Hora (16:48:58)",
+      "Layout detectado (CAIXA)",
+      "Parte do nome do recebedor"
+    ],
+    "erros": [
+      "Tipo de documento incorreto (generico ao invés de pix)",
+      "CPF não extraído corretamente",
+      "Nome do pagador com quebras de linha",
+      "Instituição incompleta (BCO C ao invés de BCO C6 S.A.)",
+      "ID da transação incorreto (Damasceno ao invés de E00360305202505291948911b814907e)",
+      "Situação da transação não extraída",
+      "Código da operação não extraído",
+      "Chave de segurança não extraída",
+      "Chave PIX não extraída",
+      "Não diferenciou pagador de recebedor"
+    ],
+    "taxa_acerto": "35%",
+    "campos_criticos_corretos": 3,
+    "campos_criticos_total": 8,
+    "recomendacoes": [
+      "Melhorar padrões regex para CPF mascarado",
+      "Ajustar extração de nomes com quebras de linha",
+      "Implementar detecção específica para comprovantes PIX",
+      "Melhorar extração de IDs longos alfanuméricos",
+      "Separar melhor dados de pagador vs recebedor"
+    ],
+    "qualidade_ocr": "Boa - texto extraído corretamente, problemas na estruturação",
+    "problemas_identificados": [
+      "Padrões regex inadequados para este layout",
+      "Processamento inadequado de quebras de linha",
+      "Falta de padrões específicos para PIX da CAIXA"
+    ]
+  }
+}

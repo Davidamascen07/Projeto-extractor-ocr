@@ -1,0 +1,42 @@
+{
+    "model_settings": {
+        "max_features": 1000,
+        "n_estimators": 100,
+        "max_depth": 10,
+        "test_size": 0.2,
+        "cv_folds": 5,
+        "random_state": 42
+    },
+    "preprocessing": {
+        "ngram_range": [1, 2],
+        "stop_words": null,
+        "lowercase": true,
+        "min_df": 1,
+        "max_df": 0.95
+    },
+    "document_types": [
+        "Comprovante PIX",
+        "Comprovante Transferência",
+        "Comprovante Pagamento", 
+        "Comprovante Boleto",
+        "Comprovante Genérico"
+    ],
+    "extraction_patterns": {
+        "cpf": "\\*{3}\\.?\\d{3}\\.?\\d{3}-?\\*{2}|\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}",
+        "cnpj": "\\d{2}\\.?\\d{3}\\.?\\d{3}/?\\d{4}-?\\d{2}",
+        "valor": "(?:Valor|Total|R\\$)\\s*R?\\$?\\s*([\\d,.]+)",
+        "data": "\\d{2}/\\d{2}/\\d{4}",
+        "hora": "\\d{2}:\\d{2}:\\d{2}",
+        "instituicao": "(?:Instituição|Banco)[:\\s]*([A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ\\s]+)"
+    },
+    "validation": {
+        "confidence_threshold": 0.7,
+        "required_fields": ["valor_total", "pagador", "transacao"],
+        "optional_fields": ["devedor", "cnpj_empresa", "instituicao_empresa"]
+    },
+    "output": {
+        "save_vectorizer_separately": true,
+        "save_training_results": true,
+        "export_feature_importance": true
+    }
+}

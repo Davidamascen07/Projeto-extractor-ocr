@@ -1,0 +1,39 @@
+{
+  "dados_extraidos": {
+    "arquivo": "comprovante_010.jpg",
+    "tipo_documento": "pix",
+    "layout_detectado": "nubank",
+    "processado_em": "2025-06-06T21:24:41.681887",
+    "valor": "38,00",
+    "hora": "20:17:55",
+    "cpf": "***615.583-**",
+    "instituicao": "de Pagamento De Lucas Rodrigues Da Silva LS CPF",
+    "id_transacao": "da",
+    "valor_total": 0.0,
+    "pagador_nome": "",
+    "pagador_cpf": "***615.583-**",
+    "pagador_instituicao": "de Pagamento De Lucas Rodrigues Da Silva LS CPF",
+    "situacao": "",
+    "data_hora": " 20:17:55",
+    "codigo_operacao": "",
+    "chave_seguranca": ""
+  },
+  "analise_qualidade": {
+    "tipo_analise": "genérica",
+    "dados_extraidos": 17,
+    "campos_principais": {
+      "valor": true,
+      "nome": true,
+      "data": true,
+      "tipo": true
+    },
+    "qualidade_texto": "Boa",
+    "sugestao": "Use um arquivo com nome específico para análise detalhada"
+  },
+  "metadata": {
+    "processado_em": "2025-06-06T21:24:41.684890",
+    "versao": "2.1.0",
+    "comprovante_completo": true,
+    "texto_extraido_tamanho": 385
+  }
+}
